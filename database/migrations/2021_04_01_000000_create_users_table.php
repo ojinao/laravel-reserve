@@ -13,7 +13,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->integer('id')->autoIncrement()->comment('id');
-            $table->string('username', 60)->comment('名前');
+            $table->string('username', 60)->index()->comment('名前');
             $table->string('email', 255)->unique()->comment('メールアドレス');
             $table->string('password', 255)->comment('パスワード');
             $table->integer('role')->comment('権限');

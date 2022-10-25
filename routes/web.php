@@ -15,6 +15,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(); // laravelのユーザ登録機能をオフに切替
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+// Route::group(['middleware' => 'guest'], function () {
+    Route::namespace('Auth')->group(function () {
+        Route::get('/register', 'RegisterController@registerView')->name('register');
+        Route::post('/register', 'RegisterController@registerPost')->name('register');
+    });
+// });

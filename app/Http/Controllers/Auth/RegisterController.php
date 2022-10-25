@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -42,32 +43,72 @@ class RegisterController extends Controller
     }
 
     /**
-     * Get a validator for an incoming registration request.
+     * ユーザー登録画面表示
      *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
+     * @return void
      */
-    protected function validator(array $data)
+    public function registerView()
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        return view('auth.register');
     }
 
     /**
-     * Create a new user instance after a valid registration.
+     * user登録
      *
-     * @param  array  $data
-     * @return \App\User
+     * @param Request $request
+     * @return void
      */
-    protected function create(array $data)
+    public function registerPost(Request $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        // dd($request->username);
+    $input = $request->all();
+    if(!is_null($input)){
+        User::create([
+           'username' => $request->username,
+           'email' => $request->email,
+           'role' => $request->role,
+           'password' => bcrypt($request->password),
+       ]);
     }
+
+        // $user = new User;
+        // $user->fill(['username' => $request->username,
+        //              'email' => $request->email,
+        //              'role' => $request->role,
+        //              'password' => bcrypt($request->password),
+        //             ]);
+        // $user->save();
+        return redirect('/home');
+    }
+
+    // /**
+    //  * Get a validator for an incoming registration request.
+    //  *
+    //  * @param  array  $data
+    //  * @return \Illuminate\Contracts\Validation\Validator
+    //  */
+    // protected function validator(array $data)
+    // {
+    //     return Validator::make($data, [
+    //         'name' => ['required', 'string', 'max:255'],
+    //         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+    //         'password' => ['required', 'string', 'min:8', 'confirmed'],
+    //     ]);
+    // }
+
+    // /**
+    //  * Create a new user instance after a valid registration.
+    //  *
+    //  * @param  array  $data
+    //  * @return \App\User
+    //  */
+    // protected function create(array $data)
+    // {
+    //     return User::create([
+    //         'username' => $data['name'],
+    //         'email' => $data['email'],
+    //         'password' => Hash::make($data['password']),
+    //         'role' => $data['role'],
+    //     ]);
+    // }
 }
