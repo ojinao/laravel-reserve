@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-use App\User;
+use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use DB;
 
 class RegisterController extends Controller
 {
@@ -60,25 +61,19 @@ class RegisterController extends Controller
      */
     public function registerPost(Request $request)
     {
-        // dd($request->username);
-    $input = $request->all();
-    if(!is_null($input)){
+        $request->validate([
+            'username' => 'required|string|max:10',
+            'email' => 'required|integer|min:0|email|unique:users',
+            'role' => 'required|in:1,5',
+            'password' => 'required|confirmed',
+        ]);
         User::create([
            'username' => $request->username,
            'email' => $request->email,
            'role' => $request->role,
            'password' => bcrypt($request->password),
        ]);
-    }
-
-        // $user = new User;
-        // $user->fill(['username' => $request->username,
-        //              'email' => $request->email,
-        //              'role' => $request->role,
-        //              'password' => bcrypt($request->password),
-        //             ]);
-        // $user->save();
-        return redirect('/home');
+        return redirect('/login');
     }
 
     // /**
@@ -96,19 +91,4 @@ class RegisterController extends Controller
     //     ]);
     // }
 
-    // /**
-    //  * Create a new user instance after a valid registration.
-    //  *
-    //  * @param  array  $data
-    //  * @return \App\User
-    //  */
-    // protected function create(array $data)
-    // {
-    //     return User::create([
-    //         'username' => $data['name'],
-    //         'email' => $data['email'],
-    //         'password' => Hash::make($data['password']),
-    //         'role' => $data['role'],
-    //     ]);
-    // }
 }

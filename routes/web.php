@@ -11,6 +11,8 @@
 |
 */
 
+use Doctrine\Inflector\RulesetInflector;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -24,5 +26,17 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::namespace('Auth')->group(function () {
         Route::get('/register', 'RegisterController@registerView')->name('register');
         Route::post('/register', 'RegisterController@registerPost')->name('register');
+        Route::get('/login', 'LoginController@loginView')->name('login');
+        Route::post('/login/post', 'LoginController@loginPost')->name('loginPost');
     });
 // });
+
+// admin
+    Route::namespace('Admin')->group(function () {
+        Route::get('/admin', 'CalendarController@show')->name('adminView');
+    });
+
+    // deneral
+    Route::namespace('General')->group(function () {
+        Route::get('/general', 'CalendarController@show')->name('generalView');
+    });

@@ -1,0 +1,26 @@
+
+ /* generalカレンダー */
+ .general .title{
+  display: flex;
+  justify-content: space-between;
+  height: 50px;
+  line-height: 50px;
+ }
+ .getTitle{
+  font-weight: 600;
+  font-size: x-large;
+ }
+ .month{
+  font-weight: 800;
+ }
+ tr th, tbody td {
+  border: 2px solid #dee2e6;
+  }
+ .table thead th {
+    text-align: center;
+  }
+
+  .day-blank {
+	/* background-color: #efefef; */
+	background-color: gray;
+  }
